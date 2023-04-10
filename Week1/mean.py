@@ -68,3 +68,32 @@ a = np.array([[1,2,3], [4,5,6]])  # 2x3 array
 print(a[0,:])
 # Print second column of a:
 print(a[:,1])
+
+
+
+
+from statistics import mean
+fluxes = [17.3, 70.1, 22.3, 16.2, 20.7]
+m = mean(fluxes)
+print(m)
+
+
+from statistics import median
+fluxes = [17.3, 70.1, 22.3, 16.2, 20.7]
+m = median(fluxes)
+print(m)
+
+
+fluxes = [17.3, 70.1, 22.3, 16.2, 20.7]
+fluxes.sort()
+mid = len(fluxes)//2
+median = fluxes[mid]
+print(median)
+
+
+fluxes = [17.3, 70.1, 22.3, 16.2, 20.7, 19.3]
+fluxes.sort()
+mid = len(fluxes)//2
+median = (fluxes[mid - 1] + fluxes[mid])/2
+print(median)
+
