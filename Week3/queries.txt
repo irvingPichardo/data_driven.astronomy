@@ -1,0 +1,94 @@
+select radius, t_eff from star where radius >1;
+
+SELECT koi_name, radius FROM Planet 
+WHERE radius < 2;
+
+SELECT kepler_id, t_eff FROM Star 
+	WHERE t_eff > 5000 AND t_eff < 6000;
+
+SELECT 2 > 3;
+SELECT NOT 2 > 3;
+SELECT 2 = 3;
+
+Los operadores de comparación numérica también funcionan en cadenas, 
+que se declaran entre comillas simples:
+
+ 
+SELECT 'abc' < 'abcd';
+SELECT 'abc' = 'ABC';
+Tenga en cuenta que, si bien la sintaxis SQL no distingue entre 
+mayúsculas y minúsculas, las cadenas no lo son. Si no está seguro 
+de qué mayúsculas se usan en un atributo, puede usar la función UPPER 
+o LOWERpara convertir el atributo y luego realizar la comparación:
+
+SELECT UPPER('aBc') = 'ABC';
+SELECT LOWER('aBc') = 'abc';
+SELECT UPPER('aBc') = 'ABC';
+SELECT LOWER('aBc') = 'abc';
+
+SELECT kepler_id, t_eff FROM Star 
+	WHERE t_eff BETWEEN 5000 AND 6000;
+
+//Saber info de una tabla
+\d Planet;
+
+SELECT  '' = NULL; 
+
+SELECT NULL IS NULL; 
+
+SELECT ('' = NULL) IS NULL; 
+
+SELECT kepler_name, radius FROM Planet
+ WHERE kepler_name IS NOT NULL AND radius BETWEEN 1 AND 3;
+
+SELECT kepler_name, radius 
+FROM Planet
+WHERE
+  radius BETWEEN 1 AND 3 AND
+  status = 'CONFIRMED';
+
+SELECT COUNT(*) FROM Planet;
+
+SELECT COUNT(*) FROM Planet
+WHERE kepler_name IS NOT NULL;
+
+SELECT MIN(radius), MAX(radius), AVG(radius)
+FROM Planet;
+
+SELECT SUM(t_eff)/COUNT(*), AVG(t_eff)
+FROM Star;
+
+SELECT koi_name, radius FROM Planet 
+ORDER BY radius DESC;
+
+SELECT koi_name, radius FROM Planet 
+ORDER BY radius DESC
+LIMIT 5;
+
+
+
+SELECT MIN(radius), MAX(radius), AVG(radius), STDDEV(radius) 
+	FROM planet WHERE kepler_name IS NULL;
+
+SELECT MIN(radius), MAX(radius), AVG(radius), STDDEV(radius) 
+	FROM planet WHERE status = 'Confirmed';
+
+SELECT radius FROM Planet
+ORDER BY radius asc;
+
+SELECT radius, COUNT(koi_name) 
+FROM Planet 
+GROUP BY radius;
+
+
+SELECT radius, COUNT(koi_name) 
+FROM Planet 
+GROUP BY radius
+HAVING COUNT(koi_name) > 1;
+
+
+SELECT radius, COUNT(koi_name) 
+FROM Planet 
+WHERE t_eq BETWEEN 500 AND 1000
+GROUP BY radius
+HAVING COUNT(koi_name) > 1;

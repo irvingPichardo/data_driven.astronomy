@@ -1,0 +1,132 @@
+SELECT Star.kepler_id, Planet.koi_name
+FROM Star, Planet
+WHERE Star.kepler_id = Planet.kepler_id;
+
+
+SELECT s.kepler_id, p.koi_name
+FROM Star AS s, Planet AS p
+WHERE s.kepler_id = p.kepler_id
+
+SELECT Star.kepler_id, Planet.koi_name
+FROM Star, Planet
+
+SELECT COUNT(*) FROM Star;
+SELECT COUNT(*) FROM Planet;
+
+
+SELECT s.radius AS sun_radius, 
+p.radius AS planet_radius 
+FROM Star AS s, Planet AS p
+WHERE s.kepler_id =p.kepler_id AND
+s.radius > p.radius 
+ORDER BY s.radius DESC;
+
+
+SELECT Star.kepler_id, Planet.koi_name
+FROM Star
+JOIN Planet USING (kepler_id);
+
+SELECT Star.kepler_id, Planet.koi_name
+FROM Star, Planet
+WHERE Star.kepler_id = Planet.kepler_id;
+
+SELECT Star.kepler_id, Planet.koi_name
+FROM Star
+JOIN Planet ON Star.kepler_id = Planet.kepler_id;
+
+SELECT Star.kepler_id, Planet.koi_name
+FROM Star
+JOIN Planet ON Star.radius > 1.5 AND Planet.t_eq > 2000;
+
+
+SELECT Star.radius, COUNT(Planet.koi_name)
+FROM Star
+JOIN Planet USING (kepler_id)
+WHERE Star.radius >= 1
+GROUP BY Star.kepler_id
+HAVING COUNT(Planet.koi_name) > 1
+ORDER BY Star.radius DESC;
+
+
+SELECT S.kepler_id, P.koi_name
+FROM Star S
+LEFT OUTER JOIN Planet P USING(kepler_id);
+
+SELECT S.kepler_id, P.koi_name
+FROM Star S
+RIGHT OUTER JOIN Planet P USING(kepler_id);
+
+SELECT S.kepler_id, P.koi_name
+FROM Star S
+FULL OUTER JOIN Planet P USING(kepler_id);
+
+SELECT *
+FROM Star OUTER JOIN Planet USING(kepler_id);
+
+SELECT s.kepler_id, s.t_eff, s.radius
+FROM Star AS s
+LEFT OUTER JOIN Planet AS p USING (kepler_id)
+WHERE p.koi_name is NULL
+ORDER BY t_eff DESC;
+
+
+SELECT COUNT(Star.*) * COUNT(Planet.*)
+FROM Star JOIN Planet USING(kepler_id);
+ 
+SELECT COUNT(*) FROM Star;
+SELECT COUNT(*) FROM Planet;
+
+
+SELECT * FROM Star
+WHERE Star.radius > (
+  SELECT AVG(radius) FROM Star
+);
+
+SELECT 
+  (SELECT COUNT(*) FROM Star) *
+  (SELECT COUNT(*) FROM Planet);
+
+
+SELECT s.kepler_id
+FROM Star s
+WHERE EXISTS (
+  SELECT * FROM Planet p
+  WHERE s.kepler_id = p.kepler_id
+    AND p.radius < 1
+);
+
+SELECT s.kepler_id
+FROM Star s
+WHERE s.kepler_id IN (
+  SELECT p.kepler_id FROM Planet p
+  WHERE p.radius < 1
+);
+
+
+\timing
+-- Join with subqueries
+SELECT s.kepler_id 
+FROM Star s
+WHERE s.kepler_id IN (
+  SELECT p.kepler_id FROM Planet p
+  WHERE p.radius < 1
+);
+
+-- Join with JOIN operator
+SELECT DISTINCT(s.kepler_id)
+FROM Star s
+JOIN Planet p USING (kepler_id)
+WHERE p.radius < 1;
+
+
+SELECT ROUND(AVG(P.t_eq), 1), MIN(S.t_eff), MAX(S.t_eff)
+FROM Star S
+JOIN Planet P USING(kepler_id)
+WHERE S.t_eff > (
+  SELECT AVG(t_eff) FROM Star
+);
+
+SELECT radius FROM Star
+ORDER BY radius DESC
+LIMIT 5;
+
